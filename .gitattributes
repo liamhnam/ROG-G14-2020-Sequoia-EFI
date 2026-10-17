@@ -1,0 +1,2 @@
+# Keep every EFI file byte-for-byte as it is on the EFI partition (no line-ending conversion)
+* -text
