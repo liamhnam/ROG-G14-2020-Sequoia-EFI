@@ -645,7 +645,7 @@
                     <key>BundlePath</key>
                     <string>NootedRed.kext</string>
                     <key>Comment</key>
-                    <string>V1.0.0</string>
+                    <string>V0.8.10 | NootedRed (ChefKissInc official)</string>
                     <key>Enabled</key>
                     <true/>
                     <key>ExecutablePath</key>

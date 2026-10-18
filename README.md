@@ -1,6 +1,6 @@
 # ROG Zephyrus G14 2020 (GA401IHR) – OpenCore EFI for macOS Sequoia
 
-OpenCore EFI running macOS **Sequoia 15.1** on the **ASUS ROG Zephyrus G14 2020 – GA401IHR**.
+OpenCore EFI running macOS **Sequoia 15.8.1** (also tested on 15.1) on the **ASUS ROG Zephyrus G14 2020 – GA401IHR**.
 
 Based on [PIut02/ROG-Zephyrus-G14-GA401-Hackintosh](https://github.com/PIut02/ROG-Zephyrus-G14-GA401-Hackintosh) (`2020/EFI` folder, commit `37edc25`). All of the original work belongs to PIut02 and the authors of the kexts and OpenCore. This repo only adds the changes proven necessary on a GA401IHR running Sequoia.
 
@@ -20,12 +20,12 @@ Based on [PIut02/ROG-Zephyrus-G14-GA401-Hackintosh](https://github.com/PIut02/RO
 ## Software
 
 - OpenCore **1.0.4** (unchanged from the original repo)
-- macOS **Sequoia 15.1**
+- macOS **Sequoia 15.8.1** (`24H32`)
 - SMBIOS: `MacBookPro16,3`
 
 ## Changes from PIut02 `2020/EFI`
 
-Apart from the 5 changes below, every file is **byte-for-byte identical** to the original repo.
+Apart from the 6 changes below, every file is **byte-for-byte identical** to the original repo.
 
 This repo is a backup of the exact EFI used on one machine, including its SMBIOS and its home Wi-Fi network.
 
@@ -36,6 +36,7 @@ This repo is a backup of the exact EFI used on one machine, including its SMBIOS
 | 3 | `Kernel → Add`: disabled `AirportItlwm.kext` (file kept) | OpenCore reports `Prelinked injection AirportItlwm.kext - Invalid Parameter`; v2.3.0 has no Sequoia build |
 | 4 | `Kernel → Add`: added `itlwm.kext` v2.3.0, with this machine's home network in `WiFiConfig` (replacing the developer's sample networks) | Wi-Fi on Sequoia; itlwm joins the saved network automatically at boot, no [HeliPort](https://github.com/OpenIntelWireless/HeliPort/releases) needed |
 | 5 | `PlatformInfo → Generic`: SMBIOS filled in | The original repo leaves it empty for users to generate |
+| 6 | `Kernel → Add`: `NootedRed.kext` replaced with the official [ChefKissInc NootedRed](https://github.com/ChefKissInc/NootedRed) **v0.8.10** (RELEASE build) | The bundled htmambo fork (1.0.0) kernel-panics on macOS 15.8.1 (`24H32`) about 8 s into boot; disabling it lets 15.8.1 boot, and 0.8.10 boots with full acceleration. NootedRed stays loaded before AppleALC, as required by NootedRed discussion #422 |
 
 > ⚠️ **The SMBIOS in `config.plist` belongs to this machine.** If you use this EFI on another machine, **you must generate a new Serial / MLB / UUID / ROM** (GenSMBIOS / macserial, model `MacBookPro16,3`). Sharing an SMBIOS causes iCloud / iMessage problems on both machines.
 
@@ -59,6 +60,6 @@ This repo is a backup of the exact EFI used on one machine, including its SMBIOS
 - [PIut02](https://github.com/PIut02/ROG-Zephyrus-G14-GA401-Hackintosh) – original EFI for the G14 GA401
 - [Acidanthera](https://github.com/acidanthera) – OpenCore, Lilu, VirtualSMC, AppleALC, …
 - [AMD-OSX](https://github.com/AMD-OSX/AMD_Vanilla) – AMD kernel patches
-- [ChefKissInc](https://github.com/ChefKissInc) / [htmambo](https://github.com/htmambo) – NootedRed
+- [ChefKissInc](https://github.com/ChefKissInc) – NootedRed
 - [OpenIntelWireless](https://github.com/OpenIntelWireless) – itlwm, HeliPort, IntelBluetoothFirmware
 - [Dortania](https://dortania.github.io/) – OpenCore guides
