@@ -27,12 +27,14 @@ Based on [PIut02/ROG-Zephyrus-G14-GA401-Hackintosh](https://github.com/PIut02/RO
 
 Apart from the 5 changes below, every file is **byte-for-byte identical** to the original repo.
 
+This repo is a backup of the exact EFI used on one machine, including its SMBIOS and its home Wi-Fi network.
+
 | # | Change | Reason (verified on this machine) |
 | :-- | :-- | :-- |
 | 1 | `Kernel → Patch`: replaced all AMD patches with [AMD_Vanilla](https://github.com/AMD-OSX/AMD_Vanilla) (commit `eaf52ef`), core count = `8`, kept the author's PAT choice (Shaneee) | The original patches have `MaxKernel 23.99.99` (Sonoma only), so Sequoia (Darwin 24) hangs at `EB\|LOG:EXITBS:START` |
 | 2 | `ACPI → Add`: disabled `SSDT-NoHybGfx.aml` (file kept) | Hang at `[ PCI configuration begin ]`; disabling this SSDT was the only change before the first successful boot |
 | 3 | `Kernel → Add`: disabled `AirportItlwm.kext` (file kept) | OpenCore reports `Prelinked injection AirportItlwm.kext - Invalid Parameter`; v2.3.0 has no Sequoia build |
-| 4 | `Kernel → Add`: added `itlwm.kext` v2.3.0 | Wi-Fi on Sequoia, used together with the [HeliPort](https://github.com/OpenIntelWireless/HeliPort/releases) app |
+| 4 | `Kernel → Add`: added `itlwm.kext` v2.3.0, with this machine's home network in `WiFiConfig` (replacing the developer's sample networks) | Wi-Fi on Sequoia; itlwm joins the saved network automatically at boot, no [HeliPort](https://github.com/OpenIntelWireless/HeliPort/releases) needed |
 | 5 | `PlatformInfo → Generic`: SMBIOS filled in | The original repo leaves it empty for users to generate |
 
 > ⚠️ **The SMBIOS in `config.plist` belongs to this machine.** If you use this EFI on another machine, **you must generate a new Serial / MLB / UUID / ROM** (GenSMBIOS / macserial, model `MacBookPro16,3`). Sharing an SMBIOS causes iCloud / iMessage problems on both machines.
@@ -46,7 +48,8 @@ Apart from the 5 changes below, every file is **byte-for-byte identical** to the
 
 ## Known issues
 
-- Wi-Fi through itlwm needs the HeliPort app; macOS treats the connection as Ethernet
+- Wi-Fi through itlwm shows up in macOS as Ethernet; other networks can be joined with the HeliPort app
+- To change the saved network, edit `WiFiConfig` in `EFI/OC/Kexts/itlwm.kext/Contents/Info.plist`
 - The GTX 1650 is always on (SSDT-NoHybGfx is not used), so battery drains faster
 - The USB-C port cannot output video (it is wired to the dGPU); use HDMI
 - Not yet fully verified on this machine: Wi-Fi (itlwm), Bluetooth, ALC285 audio, sleep/wake
